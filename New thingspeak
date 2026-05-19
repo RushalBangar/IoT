@@ -1,0 +1,48 @@
+#include <ESP8266WiFi.h>
+
+String apiKey = "YOUR_API_KEY";
+const char* ssid = "YOUR_WIFI_NAME";
+const char* password = "YOUR_WIFI_PASSWORD";
+
+const char* server = "api.thingspeak.com";
+
+WiFiClient client;
+
+int lm35Pin = A0;
+
+void setup() {
+  Serial.begin(9600);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("WiFi Connected");
+}
+
+void loop() {
+  int value = analogRead(lm35Pin);
+
+  float voltage = value * (3.3 / 1023.0);
+  float temperature = voltage * 100;
+
+  Serial.print("Temperature: ");
+  Serial.println(temperature);
+
+  if (client.connect(server, 80)) {
+
+    String url = "/update?api_key=" + apiKey +
+                 "&field1=" + String(temperature);
+
+    client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+                 "Host: " + server + "\r\n" +
+                 "Connection: close\r\n\r\n");
+  }
+
+  client.stop();
+
+  delay(15000);
+}
