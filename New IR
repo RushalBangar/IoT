@@ -1,0 +1,18 @@
+int irSensor = 2;
+
+void setup() {
+  pinMode(irSensor, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = digitalRead(irSensor);
+
+  if (value == LOW) {
+    Serial.println("Darkness Detected");
+  } else {
+    Serial.println("Light Detected");
+  }
+
+  delay(1000);
+}
