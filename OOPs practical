@@ -1,0 +1,256 @@
+Que: 1)Problem Statement: A school system needs a way to store and update student marks. A 
+Student class is created with member variables to store the student’s name and marks. While 
+setting data, the developer faces a naming conflict. This is resolved using this pointer.
+1. Create a class Student with:
+● string name
+● int marks
+2. Define a member function void setData(string name, int marks)
+● Use the this pointer to assign values.
+3. Create a void display() function to show student detail
+ANS:
+#include <iostream>
+using namespace std;
+class Student {
+private:
+ string name;
+ int marks;
+public:
+ // Function to set data
+ void setData(string name, int marks) {
+ this->name = name; // using this pointer
+ this->marks = marks; // using this pointer
+ }
+ // Function to display data
+ void display() {
+ cout << "Student Name: " << name << endl;
+ cout << "Marks: " << marks << endl;
+ }
+};
+int main() {
+ Student s1;
+ s1.setData("Megha", 85); // setting values
+ s1.display(); // displaying values
+ return 0;
+}
+Que 2)Title: Unary Operator Overloading
+Problem Statement: Create a C++ class UserProfile to manage customer
+details
+● Overload the unary minus operator (-) to temporarily deactivate a
+user account
+● Simulate increasing(++) the number of orders placed by the user
+ANS:
+#include <iostream>
+using namespace std;
+class UserProfile {
+ string name;
+ int orders;
+ bool active;
+public:
+ // Constructor
+ UserProfile(string n) {
+ name = n;
+ orders = 0;
+ active = true;
+ }
+// Overloading unary - operator (Deactivate account)
+ void operator-() {
+ active = false;
+ cout << name << "'s account is deactivated." << endl;
+ }
+// Overloading prefix ++ operator (Increase orders)
+ void operator++() {
+ orders++;
+ cout << "Order added for " << name << endl;};
+// Display function
+ void display() {
+ cout << "\nUser Name: " << name << endl;
+ cout << "Orders: " << orders << endl;
+ cout << "Status: " << (active ? "Active" : "Inactive") << endl;
+ }};
+int main() {
+ string username;
+ cout << "Enter user name: ";
+ cin >> username;
+ UserProfile user(username);
+ // Increase orders
+ ++user;
+ ++user;
+// Deactivate account
+ -user;
+ // Display details
+user.display();
+return 0; }
+Que3)Title: Type Conversion - Basic to Class & Class to Basic
+Problem Statement: Create a class Currency with a float value.
+● Convert a float to a Currency object (basic to class).
+● Convert a Currency object to float (class to basic).
+ANS:
+#include <iostream>
+using namespace std;
+class Currency {
+ float value;
+public:
+ // Constructor (Basic → Class conversion)
+ Currency(float v) {
+ value = v;
+ }
+ // Display function
+ void display() {
+ cout << "Currency Value = " << value << endl;
+ }
+ // Type conversion operator (Class → Basic conversion)
+ operator float() {
+ return value;
+ }
+};
+int main() {
+ float amount = 150.75;
+ // Basic → Class
+ Currency c1 = amount; // float to object
+ c1.display();
+ // Class → Basic
+ float newAmount;
+ newAmount = c1; // object to float
+ cout << "Converted back to float = " << newAmount << endl;
+ return 0;
+}
+Que: 4)Title: Multilevel Inheritance
+Problem Statement: Create base class University, derive
+College, and then derive Department.
+● Display full department info using all inherited data.
+#include <iostream>
+using namespace std;
+// Base Class
+class University {
+protected:
+ string uni_name;
+public:
+ void getUniversity() {
+ cout << "Enter University Name: ";
+ cin >> uni_name;
+ }};
+// Derived Class 1
+class College : public University {
+protected:
+ string college_name;
+public:
+ void getCollege() {
+ cout << "Enter College Name: ";
+ cin >> college_name;
+ }};
+// Derived Class 2
+class Department : public College {
+ string dept_name;
+public:
+ void getDepartment() {
+ cout << "Enter Department Name: ";
+ cin >> dept_name;
+ }
+void display() {
+ cout << "\n--- Department Information ---" << endl;
+ cout << "University: " << uni_name << endl;
+ cout << "College: " << college_name << endl;
+ cout << "Department: " << dept_name << endl;
+ }};
+// Main Function
+int main() {
+ Department d;
+ d.getUniversity();
+ d.getCollege();
+ d.getDepartment();
+ d.display();
+ return 0;
+}
+Que:5)Create a class template GroceryCalculator with a generic
+type T. The class should have private members to store the item name, quantity,
+and price per unit of type T. Input grocery details (item name, quantity, price per
+unit). Calculate the total cost for each item. Display the grocery bill with item
+details and total cost. Write a program to demonstrate the use of the
+GroceryCalculator class with integers (for quantity) and floats (for price).
+ANS:
+#include <iostream>
+#include <string>
+using namespace std;
+// Class Template
+template <class T>
+class GroceryCalculator
+{
+private:
+ string itemName;
+ T quantity;
+ T pricePerUnit;
+public:
+ // Function to input details
+ void input()
+ {
+ cout << "Enter Item Name: ";
+ cin >> itemName;
+ cout << "Enter Quantity: ";
+ cin >> quantity;
+ cout << "Enter Price Per Unit: ";
+ cin >> pricePerUnit;
+ }
+ // Function to calculate total cost
+ T calculateTotal()
+ {
+ return quantity * pricePerUnit;
+ }
+ // Function to display bill
+ void display()
+ {
+ cout << "\n----- Grocery Bill -----" << endl;
+ cout << "Item Name : " << itemName << endl;
+ cout << "Quantity : " << quantity << endl;
+ cout << "Price Per Unit : " << pricePerUnit << endl;
+ cout << "Total Cost : " << calculateTotal() << endl;
+ }
+};
+int main()
+{
+ // Integer type object
+ GroceryCalculator<int> item1;
+ cout << "Enter details for Integer type item:\n";
+ item1.input();
+ item1.display();
+ // Float type object
+ GroceryCalculator<float> item2;
+ cout << "\nEnter details for Float type item:\n";
+ item2.input();
+ item2.display();
+ return 0;
+}
+Que:6) Create a program that simulates an ATM withdrawal
+process.Accept the user's account balance and withdrawal amount.
+Throw an exception if the withdrawal amount exceeds the account balance.
+Handle the exception gracefully by displaying an appropriate error message.
+ANS:
+#include <iostream>
+using namespace std;
+int main()
+{
+ double balance, withdrawAmount;
+ try
+ {
+ // Input account balance
+ cout << "Enter Account Balance: ";
+ cin >> balance;
+ // Input withdrawal amount
+ cout << "Enter Withdrawal Amount: ";
+ cin >> withdrawAmount;
+ // Check for insufficient balance
+ if (withdrawAmount > balance)
+ {
+ throw "Error: Insufficient Balance!";
+ }
+// Deduct amount
+ balance = balance - withdrawAmount;
+ // Display remaining balance
+ cout << "\nWithdrawal Successful!" << endl;
+ cout << "Remaining Balance: " << balance << endl;
+ }
+ catch (const char* msg)
+ {
+ cout << "\nException Caught: " << msg << endl;
+ }
+ return 0;
+}
